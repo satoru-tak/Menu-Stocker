@@ -1,0 +1,43 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./backend:/api
+      - gem-store:/usr/local/bundle
+    depends_on:
+      - psql
+    stdin_open: true
+    tty: true
+  psql:
+    image: postgres:16-alpine
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/client:cached
+      - node_modules:/client/node_modules
+    ports:
+      - '5173:3000'
+    depends_on:
+      - api
+    tty: true
+    command: yarn dev
+volumes:
+  db-data:
+  gem-store:
+  node_modules:
