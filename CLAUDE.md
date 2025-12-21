@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Menu-Stocker is a restaurant menu inventory management application. It's a monorepo with a Rails 8.0 API backend and a Next.js 15 frontend, configured for Japanese locale (Tokyo timezone).
+Menu-Stocker is a restaurant menu inventory management application. It's a monorepo with a Rails 8.1 API backend and a Next.js 16 frontend, configured for Japanese locale (Tokyo timezone).
 
 ## Development Commands
 
@@ -16,7 +16,7 @@ docker-compose down        # Stop all services
 
 ### Backend (Rails API)
 ```bash
-cd backend
+cd apps/backend
 bundle install
 rails db:create db:migrate
 rails s -b 0.0.0.0         # Start server on port 3000
@@ -28,25 +28,25 @@ bin/brakeman --no-pager    # Security vulnerability scanning
 
 ### Frontend (Next.js)
 ```bash
-cd frontend
-yarn install
-yarn dev                   # Start dev server with Turbopack
+cd apps/frontend
+npm install
+npm run dev                # Start dev server with Turbopack
 
-yarn build                 # Production build
-yarn lint                  # ESLint
+npm run build              # Production build
+npm run lint               # ESLint
 ```
 
 ## Architecture
 
-### Backend (`/backend`)
-- **Rails 8.0 API-only mode** - No view rendering, pure JSON API
-- **Ruby 3.4.1**
+### Backend (`/apps/backend`)
+- **Rails 8.1 API-only mode** - No view rendering, pure JSON API
+- **Ruby 3.4.8**
 - **PostgreSQL 16** database
 - `ApplicationController < ActionController::API` - All controllers inherit from API base
 - CORS configuration in `config/initializers/cors.rb` (currently disabled, needs configuration for frontend communication)
 
-### Frontend (`/frontend`)
-- **Next.js 15** with App Router (React Server Components)
+### Frontend (`/apps/frontend`)
+- **Next.js 16** with App Router (React Server Components)
 - **React 19**, **TypeScript 5** (strict mode)
 - **Tailwind CSS** for styling
 - Path alias: `@/*` maps to project root

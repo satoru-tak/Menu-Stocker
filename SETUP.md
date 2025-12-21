@@ -14,7 +14,7 @@
 
 ### 推奨（ローカル開発用）
 - **Node.js**: 20.x LTS
-- **Ruby**: 3.3.x
+- **Ruby**: 3.4.x
 - **PostgreSQL**: 16.x（Docker を使用する場合は不要）
 
 ## 2. プロジェクトのクローン
@@ -34,15 +34,15 @@ git branch -a
 
 ```bash
 # Backend 用の .env ファイル
-cp backend/.env.example backend/.env
+cp apps/backend/.env.example apps/backend/.env
 
 # Frontend 用の .env ファイル
-cp frontend/.env.example frontend/.env.local
+cp apps/frontend/.env.example apps/frontend/.env.local
 ```
 
 ### 3.2 環境変数の設定
 
-**backend/.env**
+**apps/backend/.env**
 ```bash
 # Database
 DATABASE_HOST=db
@@ -61,7 +61,7 @@ RAILS_ENV=development
 RAILS_LOG_TO_STDOUT=true
 ```
 
-**frontend/.env.local**
+**apps/frontend/.env.local**
 ```bash
 # API URL
 NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
@@ -113,7 +113,7 @@ docker-compose exec backend rails db:seed
 ### 4.1 Backend (Rails)
 
 ```bash
-cd backend
+cd apps/backend
 
 # 依存パッケージのインストール
 bundle install
@@ -128,7 +128,7 @@ rails server -p 3000
 ### 4.2 Frontend (Next.js)
 
 ```bash
-cd frontend
+cd apps/frontend
 
 # 依存パッケージのインストール
 npm install

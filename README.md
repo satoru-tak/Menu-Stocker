@@ -16,14 +16,14 @@
 ## 🏗️ 技術スタック
 
 ### Backend
-- **Ruby**: 3.3+
-- **Rails**: 8.0+ (API モード)
+- **Ruby**: 3.4+
+- **Rails**: 8.1+ (API モード)
 - **Database**: PostgreSQL 16+
 - **Cache/Jobs**: Redis + Sidekiq
 - **Authentication**: Devise + JWT
 
 ### Frontend
-- **Next.js**: 15+ (App Router)
+- **Next.js**: 16+ (App Router)
 - **React**: 19+
 - **TypeScript**: 5+
 - **Styling**: Tailwind CSS
