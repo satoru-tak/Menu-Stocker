@@ -39,19 +39,26 @@
 
 ```
 menu-stocker/
-├── files/                      # 設定ファイル（このディレクトリ）
-│   ├── setup/                 # セットアップスクリプト
-│   ├── docker/                # Docker設定
-│   ├── claude/                # Claude Code設定
-│   ├── docs/                  # 設計ドキュメント
-│   └── github/                # GitHub Actions
 ├── apps/                       # アプリケーション
-│   ├── backend/               # Rails API
-│   └── frontend/              # Next.js
-├── .claude/                    # Claude Code設定（展開後）
-├── docs/                       # 設計書（展開後）
-├── docker/                     # Docker設定（展開後）
-└── .github/                    # GitHub Actions（展開後）
+│   ├── backend/               # Rails 8.1 API
+│   └── frontend/              # Next.js 16
+├── docker/                     # Docker設定
+│   ├── backend/               # Backend用Dockerfile
+│   └── frontend/              # Frontend用Dockerfile
+├── docs/                       # 設計ドキュメント
+│   ├── api/                   # API仕様
+│   ├── architecture/          # システム設計
+│   └── database/              # データベース設計
+├── .claude/                    # Claude Code設定
+│   └── prompts/               # プロンプトテンプレート
+├── .github/                    # GitHub Actions
+│   └── workflows/             # CI/CD設定
+├── scripts/                    # ユーティリティスクリプト
+├── docker-compose.yml          # Docker Compose設定
+├── CLAUDE.md                   # Claude Code用ガイド
+├── README.md                   # このファイル
+├── QUICKSTART.md               # クイックスタートガイド
+└── SETUP.md                    # 詳細セットアップガイド
 ```
 
 ## 🚀 クイックスタート
@@ -64,37 +71,34 @@ menu-stocker/
 ### セットアップ（5分）
 
 ```bash
-# 1. リポジトリをクローン（または作成）
+# 1. リポジトリをクローン
+git clone https://github.com/satoru-tak/Menu-Stocker.git
 cd menu-stocker
 
-# 2. 初期化スクリプトを実行
-chmod +x files/setup/init_project.sh
-files/setup/init_project.sh
-
-# 3. 環境変数を設定
+# 2. 環境変数を設定
 cp apps/backend/.env.example apps/backend/.env
 cp apps/frontend/.env.example apps/frontend/.env.local
 
-# 4. Docker起動
+# 3. Docker起動
 docker-compose up -d
 
-# 5. データベース作成
+# 4. データベース作成
 docker-compose exec backend rails db:create db:migrate
 
-# 6. アクセス
+# 5. アクセス
 # Backend:  http://localhost:3000
 # Frontend: http://localhost:3001
 ```
 
-詳細は [QUICKSTART.md](./files/QUICKSTART.md) を参照してください。
+詳細は [QUICKSTART.md](./QUICKSTART.md) を参照してください。
 
 ## 📚 ドキュメント
 
-- [クイックスタート](./files/QUICKSTART.md) - 5分で始める
-- [セットアップガイド](./files/SETUP.md) - 詳細な環境構築
-- [アーキテクチャ](./docs/architecture/) - システム設計
-- [API仕様](./docs/api/) - エンドポイント一覧
-- [データベース設計](./docs/database/) - テーブル定義
+- [クイックスタート](./QUICKSTART.md) - 5分で始める
+- [セットアップガイド](./SETUP.md) - 詳細な環境構築
+- [アーキテクチャ](./docs/architecture/README.md) - システム設計
+- [API仕様](./docs/api/README.md) - エンドポイント一覧
+- [データベース設計](./docs/database/README.md) - テーブル定義
 - [Claude Code使い方](./.claude/prompts/templates.md) - 開発支援
 
 ## 🤖 Claude Code で開発

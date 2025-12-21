@@ -15,76 +15,54 @@
 
 ```
 menu-stocker/
-├── files/                      # 設定ファイル（ダウンロードしたファイルを配置）
-│   ├── setup/                 # セットアップスクリプト
-│   ├── docker/                # Docker 設定
-│   ├── claude/                # Claude Code 設定
-│   ├── docs/                  # 設計ドキュメント
-│   ├── github/                # GitHub Actions
-│   ├── README.md
-│   ├── QUICKSTART.md          # このファイル
-│   └── SETUP.md
-└── (以下は初期化後に作成)
-    ├── apps/                   # アプリケーション
-    │   ├── backend/           # Rails API
-    │   └── frontend/          # Next.js
-    ├── .claude/                # Claude Code 設定
-    ├── docs/                   # 設計ドキュメント
-    ├── docker/                 # Docker 設定
-    └── .github/                # GitHub Actions
+├── apps/                       # アプリケーション
+│   ├── backend/               # Rails 8.1 API
+│   └── frontend/              # Next.js 16
+├── docker/                     # Docker設定
+│   ├── backend/               # Backend用Dockerfile
+│   └── frontend/              # Frontend用Dockerfile
+├── docs/                       # 設計ドキュメント
+│   ├── api/                   # API仕様
+│   ├── architecture/          # システム設計
+│   └── database/              # データベース設計
+├── .claude/                    # Claude Code設定
+├── .github/                    # GitHub Actions
+├── scripts/                    # ユーティリティスクリプト
+├── docker-compose.yml          # Docker Compose設定
+├── QUICKSTART.md               # このファイル
+├── SETUP.md                    # 詳細セットアップ
+└── README.md                   # プロジェクト概要
 ```
 
 ## ⚡ セットアップ方法
 
-### 方法1: 自動セットアップ（推奨）
+### Docker セットアップ（推奨）
 
 ```bash
-# 1. menu-stocker ディレクトリに移動
+# 1. リポジトリをクローン
+git clone https://github.com/satoru-tak/Menu-Stocker.git
 cd menu-stocker
 
-# 2. 初期化スクリプトを実行
-bash files/setup/init_project.sh
-
-# 以降、画面の指示に従ってください
-# - Rails プロジェクト作成: Y
-# - Next.js プロジェクト作成: Y
-# - Git リポジトリ初期化: Y
-
-# 3. 環境変数を設定
+# 2. 環境変数を設定
 cp apps/backend/.env.example apps/backend/.env
 cp apps/frontend/.env.example apps/frontend/.env.local
 
-# 4. Docker 環境を起動
+# 3. Docker 環境を起動
 docker-compose up -d
 
-# 5. データベースをセットアップ
+# 4. データベースをセットアップ
 docker-compose exec backend rails db:create db:migrate
 
-# 6. ブラウザでアクセス
+# 5. ブラウザでアクセス
 # Backend:  http://localhost:3000
 # Frontend: http://localhost:3001
 ```
 
-### 方法2: 手動セットアップ
+### ローカルセットアップ
 
 詳細は [SETUP.md](./SETUP.md) を参照してください。
 
-## 🎯 初期化スクリプトの動作
-
-`files/setup/init_project.sh` は以下の処理を自動で行います：
-
-1. ✅ ディレクトリ構造の作成
-2. ✅ Claude Code 設定のコピー
-3. ✅ ドキュメントのコピー
-4. ✅ Docker 設定のコピー
-5. ✅ GitHub Actions 設定のコピー
-6. ✅ README とガイドのコピー
-7. ✅ .gitignore の作成
-8. ✅ Rails プロジェクトの作成（選択可）
-9. ✅ Next.js プロジェクトの作成（選択可）
-10. ✅ Git リポジトリの初期化（選択可）
-
-## 📝 初期化後の作業
+## 📝 セットアップ後の作業
 
 ### 1. 動作確認
 
@@ -236,12 +214,11 @@ docker-compose exec backend rails db:drop db:create db:migrate
 1. ✅ **ドキュメントを読む**
    - [README.md](./README.md) - プロジェクト概要
    - [SETUP.md](./SETUP.md) - 詳細なセットアップ
-   - [docs/architecture/README.md](../docs/architecture/README.md) - アーキテクチャ設計
-   - [docs/api/README.md](../docs/api/README.md) - API 仕様
+   - [docs/architecture/README.md](./docs/architecture/README.md) - アーキテクチャ設計
+   - [docs/api/README.md](./docs/api/README.md) - API 仕様
 
 2. ✅ **Claude Code の使い方を学ぶ**
-   - [.claude/prompts/templates.md](../.claude/prompts/templates.md) - プロンプト集
-   - [.claude/rules.md](../.claude/rules.md) - 開発ルール
+   - [.claude/prompts/templates.md](./.claude/prompts/templates.md) - プロンプト集
 
 3. ✅ **開発を開始**
    - 機能ブランチを作成
@@ -250,22 +227,6 @@ docker-compose exec backend rails db:drop db:create db:migrate
    - Pull Request を作成
 
 ## 💡 Tips
-
-### プロジェクトを再初期化したい場合
-
-```bash
-# apps/, .claude/, docs/, docker/, .github/ を削除
-rm -rf apps .claude docs docker .github docker-compose.yml
-
-# 再度初期化スクリプトを実行
-bash files/setup/init_project.sh
-```
-
-### files/ ディレクトリの役割
-
-- `files/` は設定ファイルのマスターコピーを保管
-- プロジェクトを再作成する際のテンプレートとして機能
-- Git で管理することで設定の履歴を追跡
 
 ### Claude Code の効果的な使い方
 

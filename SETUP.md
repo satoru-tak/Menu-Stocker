@@ -406,7 +406,7 @@ docker system prune -a --volumes
 
 セットアップが完了したら：
 
-1. [CLAUDE_RULES.md](./CLAUDE_RULES.md) で開発ルールを確認
+1. [CLAUDE.md](./CLAUDE.md) で開発ガイドを確認
 2. [docs/](./docs/) で設計ドキュメントを確認
 3. 機能ブランチを作成して開発開始
 4. テストを書いてから実装（TDD）
