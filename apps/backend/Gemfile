@@ -55,8 +55,11 @@ gem 'devise-jwt'
 # CORS
 gem 'rack-cors'
 
-# シリアライザー
-gem 'active_model_serializers'
+# シリアライザー（JSON出力）
+gem 'alba'
+
+# 認可
+gem 'pundit'
 
 # 環境変数
 gem 'dotenv-rails', groups: [:development, :test]
