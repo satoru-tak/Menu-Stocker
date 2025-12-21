@@ -1,43 +1,138 @@
 version: '3.9'
+
 services:
-  api:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+  # PostgreSQL データベース
+  db:
+    image: postgres:16-alpine
+    container_name: menu_stocker_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: menu_stocker_development
     ports:
-      - '3000:3000'
+      - "5432:5432"
     volumes:
-      - ./backend:/api
-      - gem-store:/usr/local/bundle
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - menu_stocker_network
+
+  # Redis キャッシュ・ジョブキュー
+  redis:
+    image: redis:7-alpine
+    container_name: menu_stocker_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - menu_stocker_network
+
+  # Rails Backend API
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: ../../docker/backend/Dockerfile
+      args:
+        RUBY_VERSION: 3.3
+    container_name: menu_stocker_backend
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0 -p 3000"
+    volumes:
+      - ./apps/backend:/app
+      - bundle_cache:/usr/local/bundle
+      - rails_tmp:/app/tmp
+      - rails_log:/app/log
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=menu_stocker_development
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=development
+      - RAILS_LOG_TO_STDOUT=true
     depends_on:
-      - psql
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - menu_stocker_network
     stdin_open: true
     tty: true
-  psql:
-    image: postgres:16-alpine
-    restart: always
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: password
-      PGDATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - '5432:5432'
-  client:
+
+  # Sidekiq ジョブワーカー
+  sidekiq:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: ./apps/backend
+      dockerfile: ../../docker/backend/Dockerfile
+    container_name: menu_stocker_sidekiq
+    command: bundle exec sidekiq
     volumes:
-      - ./frontend:/client:cached
-      - node_modules:/client/node_modules
-    ports:
-      - '5173:3000'
+      - ./apps/backend:/app
+      - bundle_cache:/usr/local/bundle
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=menu_stocker_development
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=development
     depends_on:
-      - api
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - menu_stocker_network
+
+  # Next.js Frontend
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: ../../docker/frontend/Dockerfile
+      target: development
+    container_name: menu_stocker_frontend
+    command: npm run dev
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - backend
+    networks:
+      - menu_stocker_network
+    stdin_open: true
     tty: true
-    command: yarn dev
+
 volumes:
-  db-data:
-  gem-store:
-  node_modules:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  bundle_cache:
+    driver: local
+  rails_tmp:
+    driver: local
+  rails_log:
+    driver: local
+
+networks:
+  menu_stocker_network:
+    driver: bridge

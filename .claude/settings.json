@@ -1,0 +1,56 @@
+{
+  "language": "ja",
+  "response_format": {
+    "default_language": "Japanese",
+    "code_comments": "Japanese",
+    "commit_messages": "Japanese"
+  },
+  "project_context": {
+    "name": "Menu Stocker",
+    "description": "レストランスタイルのメニュー作成・管理アプリケーション",
+    "type": "web_application",
+    "tech_stack": {
+      "backend": {
+        "framework": "Ruby on Rails 8.0+",
+        "language": "Ruby 3.3+",
+        "database": "PostgreSQL 16+",
+        "cache": "Redis",
+        "job_queue": "Sidekiq",
+        "authentication": "Devise + JWT"
+      },
+      "frontend": {
+        "framework": "Next.js 15+",
+        "library": "React 19+",
+        "language": "TypeScript 5+",
+        "styling": "Tailwind CSS",
+        "state_management": "Zustand or React Query",
+        "form_handling": "React Hook Form"
+      },
+      "infrastructure": {
+        "containerization": "Docker + Docker Compose",
+        "ci_cd": "GitHub Actions",
+        "deployment": "Vercel (Frontend) + Railway/Render (Backend)"
+      }
+    }
+  },
+  "coding_standards": {
+    "backend": {
+      "style_guide": "Rubocop",
+      "testing": "RSpec",
+      "api_versioning": true,
+      "serializer": "Active Model Serializers"
+    },
+    "frontend": {
+      "style_guide": "ESLint + Prettier",
+      "testing": "Jest + React Testing Library",
+      "component_naming": "PascalCase",
+      "file_structure": "feature-based"
+    }
+  },
+  "development_guidelines": {
+    "commit_convention": "Conventional Commits (Japanese)",
+    "branch_naming": "feature/機能名, fix/修正内容, docs/ドキュメント名",
+    "pr_template": "Japanese",
+    "documentation": "Japanese with code examples"
+  }
+}

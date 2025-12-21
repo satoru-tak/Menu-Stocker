@@ -1,58 +1,48 @@
-# Root level
+# 環境変数
+.env
+.env.local
+.env.*.local
+
+# OS
 .DS_Store
-.env*
-!.env.example
+Thumbs.db
 
-# Backend (Rails)
-/backend/.bundle
-/backend/log/*
-!/backend/log/.keep
-/backend/tmp/*
-!/backend/tmp/.keep
-/backend/tmp/pids/*
-!/backend/tmp/pids/
-!/backend/tmp/pids/.keep
-/backend/storage/*
-!/backend/storage/.keep
-/backend/tmp/storage/*
-!/backend/tmp/storage/
-!/backend/tmp/storage/.keep
-/backend/config/master.key
-/backend/.env*
-!/backend/.env*.erb
+# エディタ
+.vscode/
+.idea/
+*.swp
+*.swo
 
-# Frontend (Next.js)
-/frontend/node_modules
-/frontend/.pnp
-/frontend/.pnp.*
-/frontend/.yarn/*
-!/frontend/.yarn/patches
-!/frontend/.yarn/plugins
-!/frontend/.yarn/releases
-!/frontend/.yarn/versions
-/frontend/coverage
-/frontend/.next/
-/frontend/out/
-/frontend/build
-/frontend/*.pem
-/frontend/npm-debug.log*
-/frontend/yarn-debug.log*
-/frontend/yarn-error.log*
-/frontend/.pnpm-debug.log*
-/frontend/.env*
-/frontend/.vercel
-/frontend/*.tsbuildinfo
-/frontend/next-env.d.ts
+# ログ
+*.log
+
+# 一時ファイル
+tmp/
+temp/
 
 # Docker
-/db/psql/*
-!/db/psql/.keep
+docker-compose.override.yml
 
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Node modules
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Rails
+apps/backend/tmp/
+apps/backend/log/
+apps/backend/storage/
+apps/backend/public/uploads/
+
+# カバレッジ
+coverage/
+.coverage/
+
+# ビルド成果物
+dist/
+build/
+
+# files ディレクトリは Git に含める
+!files/
