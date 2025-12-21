@@ -45,7 +45,7 @@ services:
       args:
         RUBY_VERSION: 3.4.8
     container_name: menu_stocker_backend
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0 -p 3000"
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0 -p 3000"
     volumes:
       - ./apps/backend:/app
       - bundle_cache:/usr/local/bundle
