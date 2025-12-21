@@ -1,6 +1,6 @@
 # Backend (Rails) Dockerfile
 
-ARG RUBY_VERSION=3.3.0
+ARG RUBY_VERSION=3.4.8
 FROM ruby:${RUBY_VERSION}-alpine AS base
 
 # 環境変数の設定

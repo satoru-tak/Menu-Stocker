@@ -43,7 +43,7 @@ services:
       context: ./apps/backend
       dockerfile: ../../docker/backend/Dockerfile
       args:
-        RUBY_VERSION: 3.3
+        RUBY_VERSION: 3.4.8
     container_name: menu_stocker_backend
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0 -p 3000"
     volumes:
