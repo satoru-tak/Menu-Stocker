@@ -182,7 +182,7 @@
 | `recipe_id` | references | ○ | 作る料理 |
 | `position` | integer | ○ | その日の中での並び順 |
 
-- 朝・昼・夜などの区切りは持たない（`02_requirements.md` §5 の未決事項）。
+- 朝・昼・夜などの区切りは持たない（`02_requirements.md` §6 の未決事項）。
 
 ---
 
@@ -238,7 +238,7 @@ meal_plan_entries >── recipes
 ### 5-1. ジャンル
 
 - `genres`（ジャンル）と`recipe_genres`（レシピ×ジャンル、多対多）。1つのレシピに複数のジャンルを付けられる
-- 階層（例：和風 > 煮物）を持つか、初期値を用意するかは未定（`02_requirements.md` §5）
+- 階層（例：和風 > 煮物）を持つか、初期値を用意するかは未定（`02_requirements.md` §6）
 
 ---
 
